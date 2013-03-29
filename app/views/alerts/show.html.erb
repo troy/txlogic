@@ -1,0 +1,61 @@
+<% if @alert.running? %>
+  <% content_for :head do %>
+    <meta http-equiv="refresh" content="180">
+  <% end %>
+<% end %>
+
+<h2 class="span12">Alert: <%= @alert.subject[0..60] %></h2>
+
+<% if @alert.running? %>
+  <%= render 'alert_delivery/choices', :alert => @alert %>
+<% end %>
+
+<table style="margin-top: 25px;">
+  <tbody>
+    <tr>
+      <th>Process</th>
+      <td><%= link_to @alert.process_definition, process_path(@alert.process_definition) %></td>
+    </tr>
+    
+    <tr>
+      <th>Invoked</th>
+      <td><%= @alert.created_at %> (<%= time_ago_in_words(@alert.created_at) %> ago)</td>
+    </tr>
+    
+    <tr>
+      <th>Resolution</th>
+      <td><%= @alert.resolution %> <%= "(#{format_recipient(@alert.resolver)})" if @alert.resolver %></td>
+    </tr>
+
+    <tr>
+      <th>Subject</th>
+      <td><%= @alert.subject %></td>
+    </tr>
+
+    <tr>
+      <th>Message</th>
+      <td>
+        <pre style="white-space: pre-wrap; white-space: -moz-pre-wrap !important; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;"><%= @alert.message %></pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h3>Notifications</h3>
+  
+<table class="zebra-striped span11">
+  <thead>
+    <tr>
+      <th>Recipient</th>
+      <th>Elapsed After Invocation</th>
+      <th>Reply</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <%= render :partial => 'alerts/delivery_list', :collection => @alert.deliveries, :as => :delivery %>
+  </tbody>
+</table>
+
+<% content_for :sidebar, render(:partial => 'alerts/sidebar') -%>

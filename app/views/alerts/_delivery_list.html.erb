@@ -1,0 +1,11 @@
+<tr>
+  <td>
+    <%= format_delivery_recipient(delivery, false) %>
+  </td>
+  <td>
+    <%= content_tag :span, distance_of_time_in_words(delivery.alert.created_at, delivery.created_at, true).sub('less than', '<'), :title => delivery.created_at.to_s %>
+  </td>
+  <td colspan="3">
+    <%= delivery.silenced? ? 'Silenced' : delivery.reply %>
+  </td>
+</tr>

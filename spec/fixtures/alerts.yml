@@ -1,0 +1,40 @@
+typical_1:
+  process_definition: typical
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+  subject: typical_1 alert subject
+  message: <%= "typical_1 alert message"*100 %>
+  customer: one
+
+sms_1:
+  process_definition: sms
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+  subject: sms_1 alert subject
+  message: sms_1 alert message very long message very long message very long message very long message very long message very long message very long message very long message very long message very long message very long message very long message very long message
+  customer: one
+
+email_then_sms_1:
+  process_definition: email_then_sms
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+  subject: one alert subject
+  message: one alert message
+  customer: one
+
+incomplete_participant_active:
+  process_definition: incomplete_participant
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+  subject: two alert subject
+  message: two alert message
+  customer: one
+
+incomplete_participant_resolved:
+  process_definition: incomplete_participant
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+  subject: resolved subject
+  message: resolved message
+  resolver: resolver@domain.com
+  customer: one

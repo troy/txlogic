@@ -1,0 +1,8 @@
+/* Override here any style defined by web-app-theme */
+#header h1 {
+  padding: 3px 0 28px 0;
+}
+
+#user-navigation a.logout {
+	background: #1A1A1A;
+}

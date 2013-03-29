@@ -1,0 +1,25 @@
+development:
+  username:     postgres
+  adapter:      postgresql
+  database:     txlogic_development
+  encoding:     unicode
+  min_messages: WARNING
+  host:         127.0.0.1
+
+test:
+  username:     postgres
+  adapter:      postgresql
+  database:     txlogic_test
+  encoding:     unicode
+  min_messages: WARNING
+  host:         127.0.0.1
+  pool:         20
+
+production:
+  username:     postgres
+  adapter:      postgresql
+  database:     txlogic_production
+  encoding:     unicode
+  min_messages: WARNING
+  host:         127.0.0.1
+  pool:         20

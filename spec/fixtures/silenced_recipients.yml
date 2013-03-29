@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  recipient: a@b.com
+  expires_at: 2011-08-06 07:17:59
+  delivery_method: JABBER
+
+two:
+  recipient: "+12061112222"
+  expires_at: <%= 1.day.from_now %>
+  delivery_method: PSTN

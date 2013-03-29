@@ -1,0 +1,49 @@
+<h2>Users</h2>
+
+<table class="zebra-striped span8">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Added</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @users.each do |user| -%>
+    <tr>
+      <td>
+        <%= user.email %>
+      </td>
+      <td>
+        <%= date_based_on_age(user.created_at) %>
+      </td>
+      <td>
+        <% unless user == current_user %>
+          <%= link_to "Remove", member_path(user), :method => "delete", :confirm => 'Remove Web access for this user?' %>
+        <% end %>
+      </td>
+    </tr>
+    <% end -%>
+  </tbody>
+</table>
+
+<hr>
+<h2>Add User</h2>
+
+<%= form_for @user, :url => members_path, :method => 'post' do |f| %>
+  <fieldset>
+    <div class="clearfix">
+      <%= f.label :email, 'Email address' %>
+      <div class="input">
+        <%= f.text_field :email %>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="actions span5">
+    <button class="btn primary" type="submit">Invite</button>
+  </div>
+<% end %>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

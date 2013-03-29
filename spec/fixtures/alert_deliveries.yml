@@ -1,0 +1,22 @@
+sms_delivery_1:
+  alert: sms_1
+  workitem_id: 1234
+  recipient: "+12064841234"
+  delivery_method: PSTN
+  reply: Declined
+  slug: 894u3f
+
+sms_delivery_2:
+  alert: sms_1
+  workitem_id: 4567
+  recipient: "+12062223333"
+  delivery_method: SMS
+  slug: 0gres23
+
+stale:
+  alert: email_then_sms_1
+  workitem_id: 4567
+  recipient: "+12062223333"
+  delivery_method: SMS
+  slug: ug8ra343t
+  created_at: <%= 61.minutes.ago %>

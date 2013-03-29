@@ -1,0 +1,10 @@
+.bundle
+db/*.sqlite3
+log/*.log
+log/*.log.age
+tmp/
+config/database.yml
+.rvmrv
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml

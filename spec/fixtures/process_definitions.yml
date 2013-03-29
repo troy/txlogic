@@ -1,0 +1,62 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+typical:
+  name: typical
+  definition: "Ruote.process_definition do\n  concurrence :timeout => '5s' do\n    participant 'im troy',    :recipient => 'troy@sevenscale.com', :using => 'jabber'\n    participant 'email troy', :recipient => 'troy@yort.com'\n  end\n\n  participant 'email troy again', :recipient => 'troy@yort.com', :timeout => '5s'\nend"
+  launch_alias: abc
+  customer: one
+
+malicious:
+  name: malicious
+  definition: "Ruote.process_definition do\n  concurrence :timeout => '5s' do\n    participant 'im troy',    :recipient => 'troy@sevenscale.com', :using => 'jabber'\n    participant 'email troy', :recipient => 'troy@yort.com'\n  end\n\n  participant 'email troy again', :recipient => 'troy@yort.com', :timeout => '5s'\n  raise 'hi'\nend"
+  launch_alias: def
+  customer: one
+
+brokenproc:
+  name: brokenproc
+  definition: "Ruote.blah do end"
+  launch_alias: i9arwgaw
+  customer: one
+
+sms:
+  name: sms
+  definition: "Ruote.process_definition do\n  participant 'sms troy', :timeout => '5m', :recipient => '2067778888'\n  end"
+  launch_alias: woot
+  customer: one
+
+notify:
+  name: notify
+  definition: "Ruote.process_definition do\n  participant 'notify campfire room', :timeout => '2m', :recipient => 'campfire', :settings => { :room => 'Big Room', :token => 'abc', :subdomain => 'acme' }\n  end"
+  launch_alias: notify_1
+  customer: one
+
+sms_timezone_set:
+  name: sms
+  definition: "Ruote.process_definition do\n  participant 'sms troy', :timeout => '5m', :recipient => '2067778888'\n  end"
+  launch_alias: woot
+  time_zone: "Pacific Time (US & Canada)"
+  customer: one
+
+email_then_sms:
+  name: process one
+  definition: "Ruote.process_definition do\n  participant 'email troy', :timeout => '5s', :recipient => 'a@b.com'\n  participant 'sms troy',   :timeout => '5s', :recipient => '2066838769', :timeout => '10s'\nend"
+  launch_alias: uj9w
+  customer: one
+
+incomplete_participant:
+  name: process two
+  definition: "Ruote.process_definition do\n  concurrence do\n  participant 'im troy without using',   :timeout => '5m', :recipient => 'a@b.com'\n  participant 'im troy2',   :timeout => '5m', :recipient => 'a2@b2d.com', :using => 'jabber'\n  participant 'call troy', :timeout => '5m', :recipient => '2066838769'\nend\nend"
+  launch_alias: ijfaew
+  subject_filter: Back to|UP again
+  customer: one
+
+paused:
+  name: paused process (not active)
+  definition: "Ruote.process_definition do\n  concurrence do\n  participant 'im troy without using',   :timeout => '5m', :recipient => 'a@b.com'\n  participant 'im troy2',   :timeout => '5m', :recipient => 'a2@b2d.com', :using => 'jabber'\n  participant 'call troy', :timeout => '5m', :recipient => '2066838769'\nend\nend"
+  launch_alias: u98agg
+  active: false
+  customer: one

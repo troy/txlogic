@@ -1,0 +1,39 @@
+
+<fieldset>
+  <div class="clearfix">
+    <%= f.label :name %>
+    <div class="input">
+      <%= f.text_field :name %>
+      <span class="help-block">Ex: Production server escalation</span>
+    </div>
+  </div>
+
+  <div class="clearfix">
+    <%= f.label :process_markup, "Definition" %> 
+    <div class="input">
+      <%= f.text_area :process_markup, :value => @process_definition.process_markup || default_markup, :style => 'font-family: Courier, monospace;', :class => 'span11' %>
+      <span class="help-block"><%= link_to('Docs', 'https://gist.github.com/51d72ce5026d1bbd426d', :target => '_blank') %>. Whitespace doesn't matter. And yes, this is Ruby syntax. Mostly.</span>    
+    </div>
+  </div>
+
+  <div class="clearfix">
+    <%= f.label :subject_filter, 'Subject filter (optional)', :class => 'optional' %>
+    <div class="input span7">
+      <%= f.text_field :subject_filter, :class => 'span6' %>
+      <span class="help-block">Don't want alerts for "back up" notices or test systems? Filter them. Example: Back to|UP alert|staging</span>    
+    </div>
+  </div>
+
+  <div class="clearfix">
+    <%= f.label :time_zone, "Your time zone" %>
+    <div class="input">
+      <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {}, :class => 'span6' %>
+      <span class="help-block">Your alert will be passed the time in this zone.</span>
+    </div>
+  </div>
+</fieldset>
+
+<div class="actions span11">
+  <button class="btn primary" type="submit">Verify & Save</button> or
+  <button class="btn" type="submit" name="verify" value="1">Verify, Save, & Keep Editing</button>
+</div>

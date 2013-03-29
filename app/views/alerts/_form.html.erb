@@ -1,0 +1,24 @@
+<fieldset>
+  <%= f.hidden_field :process_definition_id %>
+  
+  <div class="clearfix">
+    <%= f.label :subject %>
+    <div class="input">
+      <%= f.text_field :subject %>
+      <span class="help-block">Example: Something's down</span>
+    </div>
+  </div>
+
+  <div class="clearfix">
+    <%= f.label :message %>
+    <div class="input">
+      <%= f.text_area :message, :class => "span6", :style => 'height: 125px;' %>
+      <span class="help-block">Example: www123 is toast.</span>
+    </div>
+  </div>
+</fieldset>
+
+<div class="actions span6">
+  <button class="btn primary" type="submit">Invoke Alert</button> or
+  <%= link_to "Cancel", alerts_path %>
+</div>

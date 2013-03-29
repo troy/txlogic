@@ -1,0 +1,23 @@
+sms_delivery_1_42:
+  alert_delivery: sms_delivery_1
+  reply: 42
+
+sms_delivery_1_43:
+  alert_delivery: sms_delivery_1
+  reply: 43
+
+sms_delivery_1_44:
+  alert_delivery: sms_delivery_1
+  reply: 44
+  
+sms_delivery_2_42:
+  alert_delivery: sms_delivery_2
+  reply: 42
+
+sms_delivery_2_43:
+  alert_delivery: sms_delivery_2
+  reply: 43
+
+sms_delivery_2_44:
+  alert_delivery: sms_delivery_2
+  reply: 44

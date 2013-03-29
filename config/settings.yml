@@ -1,0 +1,19 @@
+alerts:
+  reply_base_url: https://example.com/
+
+  email:
+    from: noreply@example.com
+    reply_domain: example.mailgun.org
+    smtp:
+      address: smtp.example.com
+      port: 25
+      domain: example.com
+      authentication: :plain
+      user_name: username
+      password: password
+
+  tropo:
+    token: abcdefg
+
+  services:
+    base_url: http://goat-cheese-42.herokuapp.com/

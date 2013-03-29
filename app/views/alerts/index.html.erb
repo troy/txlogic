@@ -1,0 +1,112 @@
+<% if @active_alerts %>
+  <% content_for :head do %>
+    <meta http-equiv="refresh" content="180">
+  <% end %>
+<% end %>
+
+<h2>Alerts</h2>
+
+<table class="zebra-striped span13">
+  <thead>
+    <tr>             
+      <th class="span5">Subject</th>
+      <th>Invoked</th>
+      <th>Process</th>
+      <th>Resolution</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%- if @alerts.empty? -%>
+    <tr>
+      <td>No alerts started yet.</td>
+    </tr>
+    <%- end -%>
+
+    <% @alerts.each do |alert| -%>
+      <tr>
+        <td>
+          <% if alert.subject.length > 29 %>
+            <span title="<%= alert.subject %>"><%= alert.subject[0..28] %></span>
+          <% else %>
+            <%= alert.subject && alert.subject[0..28] %>
+          <% end %>
+        </td>
+        <td>
+          <%= date_based_on_age(alert.created_at) %>
+        </td>
+        <td>
+          <%= link_to alert.process_definition.to_s[0..23], edit_process_path(alert.process_definition) %>
+        </td>
+        <% unless alert.running? %>
+        <td>
+          <%= alert.resolution %> <%= "(#{format_recipient(alert.resolver)})" if alert.resolver %>
+        </td>
+        <% end %>
+
+        <td colspan="<%= alert.running? ? 2 : 1 %>">
+          <% if alert.running? %>
+            <%= link_to 'Accept', accept_alert_path(alert), :confirm => 'Accept alert, ending further notifications?' %> 
+            | <%= link_to 'End', stop_alert_path(alert), :confirm => 'End alert without further notifications?' %> 
+            | 
+          <% end %>
+          <%= link_to 'Details', alert_path(alert) %>  
+        </td>
+      </tr>        
+    <% end -%>
+  </tbody>
+</table>
+        
+<div class="pagination span10">
+  <%= will_paginate @alerts, :previous_label => '&laquo; Newer', :next_label => 'Older &raquo;', :inner_window => 1, :outer_window => 1 %>  
+</div>
+
+<hr class="span13">
+
+<h2>Processes</h2>
+
+<table class="zebra-striped span13">
+  <thead>
+    <tr>             
+      <th class="span5">Name</th>
+      <th>Invoke Via</th>
+      <th>Created</th>
+      <th>Invocations</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @process_definitions.each do |p_d| -%>
+    <tr>
+      <td>
+        <%= p_d.name %>
+      </td>
+      <td>
+        <%= email_alias_link(p_d) %>,   
+        <%= http_alias_link(p_d) %>
+      </td>
+      <td>
+        <%= p_d.created_at.strftime('%B %e') %>
+      </td>
+      <td>
+        <%= p_d.alerts.count %>
+      </td>
+
+      <td class="last">
+        <% if p_d.active? %>
+          <%= link_to("Pause", pause_process_path(p_d), :method => :post, :confirm => 'This process will not send any alerts while paused. Are you sure?') %>
+        <% else %>
+          <%= link_to("Resume", resume_process_path(p_d), :method => :post, :confirm => 'Start sending alerts again?') %>
+        <% end %> |
+        <%= link_to 'Test', invoke_process_path(p_d), :method => :get %> |
+        <%= link_to 'Edit', edit_process_path(p_d) %> |
+        <%= link_to 'Delete', process_path(p_d), :method => :delete, :confirm => "Really delete #{p_d.name}?" %>
+      </td>
+    </tr>          
+    <% end -%>
+  </tbody>
+</table>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

@@ -1,0 +1,15 @@
+one:
+  email: a@b.com
+  customer: one
+
+two:
+  email: b@c.com
+  customer: two
+
+confirmed:
+  email: arthur@dent.com
+  confirmed_at: <%= 1.day.ago %>
+  # password = towel42
+  encrypted_password: 04e55157a60309833b435daa3bf576a0ca7db4e07d94ee09083e4f0a671ab31fde4074a684fee17ab02cb8a919aa9524e95a540450e271384001109a2be7a168
+  password_salt: zSkFtcbCoqeisKdns1qk
+  customer: one

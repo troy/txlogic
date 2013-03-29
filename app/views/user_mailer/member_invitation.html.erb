@@ -1,0 +1,7 @@
+<p>Hello <%= @resource.email %>!</p>
+
+<p>You've been invited to Transmit Logic.</p>
+
+<p><%= link_to 'Check it out', edit_password_url(@resource, :reset_password_token => @resource.reset_password_token) %></p>
+
+<p>If you didn't request this, please ignore this email.</p>

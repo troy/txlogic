@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Transmit Logic</title>
+  <%= stylesheet_link_tag 'bootstrap.min' %>
+  <link href='https://fonts.googleapis.com/css?family=Monofett|Josefin+Sans:600italic|Terminal+Dosis+Light' rel='stylesheet' type='text/css'>
+
+  <%= javascript_include_tag :defaults %>
+  <%= csrf_meta_tag %>
+  <%= yield :head %>
+</head>
+
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="container">
+      <a href="/" class="brand" style="font-family: Terminal Dosis Light; font-size: 24px; color: orange; letter-spacing: 0.1em; margin-top: -2px;">&lt; <span style="letter-spacing: 0.13em; margin-right: 0.20em;">tx logic</span>&gt;</a>
+      <ul class="nav secondary-nav">
+        <li><%= link_to 'Sign In', new_user_session_path %></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" style="padding-top: 60px;">
+  <div class="content" style="width: 700px;">
+
+    <div class="flash">
+      <% flash.each do |type, message| -%>
+        <div class="message <%= type %>">
+          <p><%= message %></p>
+        </div>
+      <% end -%>
+    </div>
+    
+    <%= yield %>            
+  </div>  
+</div>
+</body>
+</html>

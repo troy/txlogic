@@ -1,0 +1,40 @@
+<p>Define your ideal escalation process.</p>
+    
+<p>Send an IM to multiple engineers, and if no one replies 
+to acknowledge the issue, proceed to email, SMS, and phone calls.</p>
+
+<p>Notify concurrently, use date and time, pass in variables,
+introduce loops, and more.</p>
+
+<% unless @process_definition.new_record? %>
+  <h3><%= @process_definition %></h3>
+  <ul>
+    <li><%= link_to "Edit", edit_process_path(@process_definition) %></li>
+    <li><%= link_to "Invoke", invoke_process_path(@process_definition) %></li>
+  </ul>
+
+  <h3>Help</h3>
+  <ul>
+    <li><%= link_to "Docs", "https://github.com/troy/txlogic" %></li>
+  </ul>
+<% end %>
+  
+<!--
+<div class="block">
+  <h3>How Do I...</h3>
+  <ul class="navigation">
+    <li><a href="#">Send IM, email, SMS, or call</a></li>
+    <li><a href="#">Notify multiple people at once</a></li>
+    <li><a href="#">Use date and time</a></li>
+  </ul>
+</div>
+
+<div class="block">
+  <h3>Advanced</h3>
+  <ul class="navigation">
+    <li><a href="#">Define alert-specific variables</a></li>
+    <li><a href="#">Use loops and conditionals</a></li>
+    <li><a href="#">Host definition on any Web server</a></li>
+  </ul>
+</div>
+-->
