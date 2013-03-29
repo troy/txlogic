@@ -51,7 +51,7 @@ end
 Transmit Logic provides:
 
 * a Web interface where ops staff can define who, how and when to
-contact engineers. Uses an alert-specific DSL built with [ruote] (see
+contact engineers. Uses an alert-specific DSL built with [ruote]. See
 [Examples](#examples)).
 * a runtime environment for running those process definitions and
 sending alerts.
@@ -64,7 +64,7 @@ recipients can respond to the alert via that delivery method)
 actively decline it (so it continues to the
 next step immediately), or halt the alert (as for a false positive)
 * one-way alert delivery to many other services, like Campfire. Uses a
-HTTP call to [txlogic-services] with a link back to the site
+HTTP call to [txlogic-services] with a link back to the site.
 
 
 ## Status
@@ -80,7 +80,8 @@ There's lots of room for refactoring.
 ## Known Problems
 
 * Jabber IM support is incomplete. It worked at one point but the
-service provider removed Jabber support and the standalone XMPP
+service provider removed Jabber support and the standalone XMPP handler
+isn't done.
 
 
 ## Dependencies
@@ -157,7 +158,7 @@ Open an issue.
 
 ## Authors
 
-* Troy Davis, [http://troy.yort.com], [@troyd]
+* Troy Davis, <http://troy.yort.com>, [@troyd]
 * Larry Marburger, [@lmarburger]
 
 
