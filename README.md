@@ -14,7 +14,7 @@ Call someone, wait 5 minutes, email someone else.
 ```
 process_definition do
   participant 'call bob', :recipient => '4155554242', :timeout => '5m'
-  participant 'email Alex', :recipient => 'alex42@gmail.com', :using => 'email'
+  participant 'email Alex', :recipient => 'alex42@gmail.com'
 end
 ```
 
