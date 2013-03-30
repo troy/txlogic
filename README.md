@@ -1,13 +1,15 @@
 # Transmit Logic
 
-Always reach a human. Nagging as a service. 
+Always reach a human. Nagging as a service.
+
+Jump to [Examples](#examples), [Status](#status), [Setup](#setup), or [Support](#support).
 
 
 # Examples
 
-Here's the full [alert syntax].
+Think of Transmit Logic as a bit like AppleScript or Automator for ops alerts. Here's the full [alert syntax].
 
-## Basic
+## Basic example
 
 Call someone, wait 5 minutes, email someone else.
 
@@ -18,7 +20,7 @@ process_definition do
 end
 ```
 
-## Advanced
+## Advanced example
 
 Concurrently contact Sally and Phong using self-contained alert
 definitions. If neither respond, call Sally again but only at night.
@@ -43,31 +45,12 @@ process_definition do
 end
 ```
 
+Here's the full [alert syntax].
+
 
 # Status
 
-## Functionality
-
-Transmit Logic provides:
-
-* a Web interface where ops staff can define who, how and when to
-contact engineers. Uses an alert-specific DSL built with [ruote]. See
-[Examples](#examples)).
-* a runtime environment for running those process definitions and
-sending alerts.
-* the ability to invoke alerts via HTTP POST, a SMTP-to-HTTP gateway, or
-the Web interface. External monitoring services can invoke TxL alert
-processes by sending standard email alerts.
-* two-way alert handling for SMS, phone calls, emails, and SIP calls (so
-recipients can respond to the alert via that delivery method)
-* per-recipient accept,
-actively decline it (so it continues to the
-next step immediately), or halt the alert (as for a false positive)
-* one-way alert delivery to many other services, like Campfire. Uses a
-HTTP call to [txlogic-services] with a link back to the site.
-
-
-## Status
+## Maturity
 
 The app itself is stable and in production use.
 
@@ -76,36 +59,69 @@ setup process needs work, as does the documentation of it. It probably
 hard-codes configuration options which don't apply in all situations.
 There's lots of room for refactoring.
 
-
 ## Known Problems
 
 * Jabber IM support is incomplete. It worked at one point but the
 service provider removed Jabber support and the standalone XMPP handler
 isn't done.
 
+## Functionality
+
+Transmit Logic provides:
+
+* a Web interface where ops staff can define who, how and when to
+contact engineers. Uses an alert-specific DSL built with [ruote]. See
+[Examples](#examples) or [alert syntax].
+* a runtime environment for running those process definitions and
+sending alerts.
+* the ability to invoke alerts via HTTP POST, a third-party SMTP-to-HTTP 
+gateway, or the Web interface. External monitoring services can invoke TxL 
+alert processes by sending standard email alerts.
+* two-way alert handling for SMS, phone calls, emails, and SIP calls (so
+recipients can respond to the alert via that delivery method).
+* for two-way alerts, each recipient may accept it (halting it), actively 
+decline (so it continues to the next participant immediately), or halt it 
+(like for a false positive).
+* one-way alert delivery to many other services, like Campfire. Uses a
+HTTP call to [txlogic-services] with a link back to TxL to respond.
 
 ## Dependencies
 
-* SMTP server: outbound email alerts
-* [Mailgun]: inbound email-to-HTTP for accepting alerts via email (and
-replies to email alerts)
+* SMTP server: outbound emails
+* [Mailgun]: inbound email-to-HTTP gateway for accepting alerts via email 
+(and replies to email alerts)
 * [Tropo]: phone calls (to PSTN and SIP numbers), SMS
 * Standalone [txlogic-services] instance (optional): other HTTP-accessible notification destinations (such as Campfire)
 
-Adding additional providers would be relatively easy.
+Adding additional providers should be relatively easy.
 
 
 # Setup
 
-## Components
+Transmit Logic has 3 components:
 
-* Web interface. Rails app for defining and invoking alerts.
+* Web app. Rails app for defining, invoking, and executing alerts.
+* Alert delivery services, currently Tropo and Mailgun.
 * [txlogic-services]: Fork of [github-services] Sinatra app for sending
 one-way alerts (without response choices). Optional; only needed to
 use non-core notification methods.
 
-
 ## Web app
+
+Clone the repo and make your modifications to it. For example, if you've just created a new git repo on a service like GitHub ([more](https://help.github.com/articles/creating-a-new-repository)) and have a `git://` URL:
+
+```
+git clone git://github.com/troy/txlogic.git
+cd txlogic
+git add origin git://YOUR-NEW-GIT-URL
+git push
+```
+
+Follow the configuration instructions below and then deploy it. The TxL Web app can run in a standard Rails environment or on a Rails app hosting service like Heroku. To use Heroku instead, run `heroku apps:create -s cedar` and `git push` it to your new app ([more](https://devcenter.heroku.com/articles/rails3)).
+
+### Secret token
+
+Edit `config/initializers/secret_token.rb` to define a random token that is unique to your app.
 
 ### Database
 
@@ -114,27 +130,27 @@ Edit `database.yml` (or `database.yml.mysql` and rename it), then:
     bundle install
     rake db:migrate
 
-### Token
+### Settings
 
-Edit `config/initializers/secret_token.rb` to define a token.
-
-### Web app emails
+#### Web app email settings
 
 Define standard Rails mailer settings in `config/application.rb` or
-`config/environments/<environment>.rb`.  See `config/environments/production.rb` 
+`config/environments/<environment>.rb`. See `config/environments/production.rb` 
 for an example using `ActionMailer::Base.smtp_settings`.
 
 The ActionMailer settings are used for emails generated by the Web app
-(new user invitations). SMTP settings for sending alerts are defined
+(like new user invitations). SMTP settings for sending alerts are defined
 separately below, though they may be the same.
 
-### Alerts
+#### Alert delivery settings
 
-Edit `config/settings.yml` and provide service information. Optionally
+See below for step-by-step instructions to activate alert delivery services (and thereby, to obtain these settings).
+
+Edit `config/settings.yml` and provide alert service settings. Optionally
 define as environment-specific options in
 `config/settings/<environment>.yml` per [rails_config].
 
-### Optional: Enforce SSL, hostname
+#### Optional: Enforce SSL, hostname
 
 For production environments with SSL and a single hostname, change 
 `default_url_options` in `config/settings/production.rb`.
@@ -142,7 +158,49 @@ For production environments with SSL and a single hostname, change
 that hostname and/or only via SSL.
 
 
-# Usage
+## Alert delivery services
+
+### Tropo
+
+Sign up for Tropo ([free](https://www.tropo.com/account/register.jsp)), then:
+
+1. Choose `Create New Application`. Choose `Tropo Scripting`.
+2. Give it a name, then click `Hosted file` and `Create a new hosted file for this application`
+3. Name it txlogic.rb and paste the contents of [doc/tropo.rb] into the form.
+4. Click `Save`. The application will be saved and assigned a phone number (shown on Tropo's `Applications` tab, under `Show Settings`). Copy it.
+5. Go to `Your Hosted Files` in Tropo and edit the script you just created. Replace all instances of `2065551111` and `YOUR-TXLOGIC-URL.COM` with that Tropo number and the URL to your TxL Web app.
+6. In your core TxL Web app installation, edit `config/settings.yml` (or an environment-specific settings file in `config/settings/`). Define your Tropo outbound voice token (shown on Tropo's `Applications` tab, under `Show Settings`).
+
+### Mailgun
+
+Sign up for Mailgun ([free](https://mailgun.net/signup?plan=free) or [pricing](http://www.mailgun.com/pricing), then:
+
+1. Click the `Routes` tab, then `Create Route`.
+2. Define a route for responses to alerts. Define a route with these settings, replacing `YOUR-TXLOGIC-URL.COM` with the URL to your TxL Web app: priority `1`, filter `match_recipient(r"update-.*")`, action `forward(r"https://YOUR-TXLOGIC-URL.COM/replies/mailgun")`, description `Replies to alerts (used as "Reply-to")`
+3. Create a second route for bounces. Click `Create Route` again and define a route with: priority `1`, filter `match_recipient(r"alert-.*")`, action `forward(r"https://YOUR-TXLOGIC-URL.COM/alerts")`, description `Bounces (used as "From")`
+4. In your core TxL Web app installation, edit `config/settings.yml` (or an environment-specific settings file in `config/settings/`). Edit the `alerts.email.reply_domain` definition to be the hostname of your Mailgun account, such as `example.mailgun.org` (shown on Mailgun's `My Accounts` tab).
+
+### [txlogic-services]
+
+This is a separate app from the core TxL Web app. It can run in a standard Ruby environment or on a service like Heroku. Here is an example on Heroku. Create a new Heroku app and clone the public repo:
+
+```
+heroku apps:create -s cedar
+git clone git://github.com/troy/txlogic-services.git
+```
+
+Deploy the cloned repo to your new Heroku app. Replace YOUR-NEW-APP-NAME with the app name provided by `heroku apps:create`:
+
+```
+cd txlogic-services
+git remote add heroku git@heroku.com:YOUR-NEW-APP-NAME.git
+git push heroku
+```
+
+Last, in your core TxL Web app installation, edit `config/settings.yml` (or an environment-specific settings file in `config/settings/`). Edit the `alerts.services.base_url` definition to be the root URL to your new app above. For example: `http://goat-cheese-42.herokuapp.com/`.
+
+
+# Support
 
 ## License
 
@@ -169,6 +227,7 @@ Open an issue.
 [Mailgun]: http://www.mailgun.com/
 [Tropo]: http://tropo.com/
 [rails_config]: https://github.com/railsjedi/rails_config
+[doc/tropo.rb]: https://github.com/troy/txlogic/blob/master/doc/tropo.rb
 [MIT]: http://opensource.org/licenses/MIT
 [@troyd]: http://twitter.com/troyd
 [@lmarburger]: http://twitter.com/lmarburger
