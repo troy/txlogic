@@ -197,7 +197,7 @@ Sign up for Mailgun ([free](https://mailgun.net/signup?plan=free) or [pricing](h
 
 ### [txlogic-services]
 
-This is a separate app from the core TxL Web app. It can run in a standard Ruby environment or on a service like Heroku. Here is an example on Heroku. Create a new Heroku app and clone the public repo:
+This is a [separate app] from the core TxL Web app. It can run in a standard Ruby environment or on a service like Heroku. Here is an example on Heroku. Create a new Heroku app and clone the public repo:
 
 ```
 heroku apps:create -s cedar
@@ -239,10 +239,11 @@ Open an issue.
 [txlogic-services]: https://github.com/troy/txlogic-services
 [github-services]: https://github.com/github/github-services
 [ruote]: http://ruote.rubyforge.org/
+[rails_config]: https://github.com/railsjedi/rails_config
 [Mailgun]: http://www.mailgun.com/
 [Tropo]: http://tropo.com/
-[rails_config]: https://github.com/railsjedi/rails_config
 [doc/tropo.rb]: https://github.com/troy/txlogic/blob/master/doc/tropo.rb
+[separate app]: https://github.com/troy/txlogic-services
 [MIT]: http://opensource.org/licenses/MIT
 [@troyd]: http://twitter.com/troyd
 [@lmarburger]: http://twitter.com/lmarburger
