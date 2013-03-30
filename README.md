@@ -4,6 +4,7 @@ Always reach a human. Nagging as a service.
 
 Jump to [Screenshots](#screenshots), [Examples](#examples), [Status](#status), [Setup](#setup), or [Support](#support).
 
+
 # Screenshots
 
 ## Dashboard
@@ -112,11 +113,11 @@ Adding additional providers should be relatively easy.
 
 # Setup
 
-Transmit Logic has 3 components:
+Transmit Logic has 3 components. Here's how to setup:
 
-* Web app. Rails app for defining, invoking, and executing alerts.
-* Alert delivery services, currently Tropo and Mailgun.
-* [txlogic-services]: Fork of [github-services] Sinatra app for sending
+* [Web app](#web-app). Rails app for defining, invoking, and executing alerts.
+* [Alert delivery services](#alert-delivery-services), currently Tropo and Mailgun.
+* [txlogic-services](#txlogic-services): Fork of [github-services] Sinatra app for sending
 one-way alerts (without response choices). Optional; only needed to
 use non-core notification methods.
 
